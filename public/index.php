@@ -1,10 +1,12 @@
 <?php
 // File: public/index.php
+session_start();
 
 // 1. Include file yang dibutuhkan
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Controllers/ProductController.php';
+require_once __DIR__ . '/../app/Controllers/AuthController.php';
 
 // 2. Ambil parameter routing dari URL
 $controllerName = isset($_GET['controller']) ? $_GET['controller'] : 'home';
@@ -14,6 +16,9 @@ $actionName = isset($_GET['action']) ? $_GET['action'] : 'index';
 $controller = null;
 
 switch ($controllerName) {
+    case 'auth':
+        $controller = new AuthController();
+        break;
     case 'product':
         $controller = new ProductController();
         break;

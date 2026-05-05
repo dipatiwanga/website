@@ -161,7 +161,13 @@
                 <input type="text" name="search" placeholder="Cari produk..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
                 <button type="submit" class="btn">Cari</button>
             </form>
-            <a href="index.php?controller=product&action=create" class="btn">Upload Produk</a>
+            <?php if (isset($_SESSION['admin_id'])): ?>
+                <span style="color: var(--text-muted); font-size: 0.9rem;">Hello, <strong><?= htmlspecialchars($_SESSION['admin_username']) ?></strong></span>
+                <a href="index.php?controller=product&action=create" class="btn">Upload Produk</a>
+                <a href="index.php?controller=auth&action=logout" style="color: #f87171;">Logout</a>
+            <?php else: ?>
+                <a href="index.php?controller=auth&action=login" class="btn">Admin Login</a>
+            <?php endif; ?>
         </div>
     </nav>
 

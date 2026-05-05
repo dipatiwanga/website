@@ -6,6 +6,10 @@ class ProductController {
     private $product;
 
     public function __construct() {
+        if (!isset($_SESSION['admin_id'])) {
+            header("Location: index.php?controller=auth&action=login");
+            exit();
+        }
         $database = new Database();
         $this->db = $database->getConnection();
         $this->product = new Product($this->db);
