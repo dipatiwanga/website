@@ -163,6 +163,7 @@
             </form>
             <?php if (isset($_SESSION['admin_id'])): ?>
                 <span style="color: var(--text-muted); font-size: 0.9rem;">Hello, <strong><?= htmlspecialchars($_SESSION['admin_username']) ?></strong></span>
+                <a href="index.php?controller=admin&action=index" style="color: var(--text-main); text-decoration: none; font-size: 0.9rem; margin-right: 1rem;">Admin Panel</a>
                 <a href="index.php?controller=product&action=create" class="btn">Upload Produk</a>
                 <a href="index.php?controller=auth&action=logout" style="color: #f87171;">Logout</a>
             <?php else: ?>
