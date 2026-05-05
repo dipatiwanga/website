@@ -51,6 +51,18 @@
     <a href="index.php?controller=product&action=create" class="btn">Tambah Baru</a>
 </div>
 
+<?php if (isset($_SESSION['success'])): ?>
+    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+        <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])): ?>
+    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
+
 <table class="admin-table">
     <thead>
         <tr>

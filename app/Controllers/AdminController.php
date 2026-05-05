@@ -54,13 +54,26 @@ class AdminController {
         $productData = $this->product->getById($id);
 
         if ($productData) {
-            // Hapus file fisik
-            $filePath = __DIR__ . "/../../public/" . $productData['image_path'];
+            // Hapus file fisik - gunakan path absolut dari root project
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . '/' . $productData['image_path'];
+            
+            // Logika tambahan jika DOCUMENT_ROOT tidak mencakup folder public
+            if (!file_exists($filePath)) {
+                $filePath = __DIR__ . "/../../public/" . $productData['image_path'];
+            }
+
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
+
             // Hapus dari database
-            $this->product->delete($id);
+            if ($this->product->delete($id)) {
+                $_SESSION['success'] = "Produk berhasil dihapus.";
+            } else {
+                $_SESSION['error'] = "Gagal menghapus data dari database.";
+            }
+        } else {
+            $_SESSION['error'] = "Data produk tidak ditemukan.";
         }
 
         header("Location: index.php?controller=admin&action=index");
