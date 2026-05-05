@@ -8,14 +8,35 @@ class Product {
         $this->conn = $db;
     }
 
-    public function getAll($keyword = null) {
+    public function getAll($keyword = null, $offset = 0, $limit = 6) {
         $query = "SELECT * FROM " . $this->table_name;
         
         if ($keyword) {
             $query .= " WHERE caption LIKE :keyword";
         }
         
-        $query .= " ORDER BY created_at DESC";
+        $query .= " ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->conn->prepare($query);
+
+        if ($keyword) {
+            $keyword = "%{$keyword}%";
+            $stmt->bindParam(':keyword', $keyword);
+        }
+        
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countAll($keyword = null) {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+        
+        if ($keyword) {
+            $query .= " WHERE caption LIKE :keyword";
+        }
 
         $stmt = $this->conn->prepare($query);
 
@@ -25,7 +46,8 @@ class Product {
         }
 
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
     }
 
     public function create($imagePath, $caption) {

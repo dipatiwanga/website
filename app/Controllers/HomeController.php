@@ -13,7 +13,14 @@ class HomeController {
 
     public function index() {
         $keyword = isset($_GET['search']) ? $_GET['search'] : null;
-        $products = $this->product->getAll($keyword);
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 6;
+        $offset = ($page - 1) * $limit;
+
+        $totalRows = $this->product->countAll($keyword);
+        $totalPages = ceil($totalRows / $limit);
+
+        $products = $this->product->getAll($keyword, $offset, $limit);
         
         $view = __DIR__ . '/../Views/home/index.php';
         require_once __DIR__ . '/../Views/layout.php';
