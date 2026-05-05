@@ -45,6 +45,41 @@
         padding: 5rem;
         color: var(--text-muted);
     }
+
+    /* Pagination Styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 3rem;
+    }
+
+    .pagination a, .pagination span {
+        padding: 0.6rem 1.1rem;
+        border-radius: 8px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        color: var(--text-main);
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .pagination a:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+
+    .pagination .active {
+        background: var(--primary);
+        border-color: var(--primary);
+        font-weight: 600;
+    }
+
+    .pagination .disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 </style>
 
 <h1 style="margin-bottom: 2rem;">Katalog Produk</h1>
@@ -66,4 +101,27 @@
             </div>
         <?php endforeach; ?>
     </div>
+
+    <!-- Pagination Navigation -->
+    <?php if ($totalPages > 1): ?>
+        <div class="pagination">
+            <?php 
+                $searchQuery = $keyword ? "&search=" . urlencode($keyword) : "";
+            ?>
+
+            <?php if ($page > 1): ?>
+                <a href="index.php?page=<?= $page - 1 ?><?= $searchQuery ?>">&laquo; Prev</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="index.php?page=<?= $i ?><?= $searchQuery ?>" class="<?= $i == $page ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="index.php?page=<?= $page + 1 ?><?= $searchQuery ?>">Next &raquo;</a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
