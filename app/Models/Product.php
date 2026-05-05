@@ -62,4 +62,27 @@ class Product {
         }
         return false;
     }
+
+    public function getById($id) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function update($id, $caption) {
+        $query = "UPDATE " . $this->table_name . " SET caption = :caption WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':caption', $caption);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public function delete($id) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
 }

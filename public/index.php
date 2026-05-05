@@ -7,6 +7,7 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Controllers/ProductController.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
+require_once __DIR__ . '/../app/Controllers/AdminController.php';
 
 // 2. Ambil parameter routing dari URL
 $controllerName = isset($_GET['controller']) ? $_GET['controller'] : 'home';
@@ -16,6 +17,9 @@ $actionName = isset($_GET['action']) ? $_GET['action'] : 'index';
 $controller = null;
 
 switch ($controllerName) {
+    case 'admin':
+        $controller = new AdminController();
+        break;
     case 'auth':
         $controller = new AuthController();
         break;
